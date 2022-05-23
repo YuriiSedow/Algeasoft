@@ -1,0 +1,72 @@
+@import 'variables.scss';
+
+//Адаптивный шрифт
+@mixin adaptiv-font($pcSize, $mobSize) {
+	$addSize: $pcSize - $mobSize;
+	$maxWidth: $maxWidth - 320;
+	font-size: calc(
+		#{$mobSize + px} + #{$addSize} * ((100vw - 320px) / #{$maxWidth})
+	);
+}
+
+//Адаптивные контейнеры
+@mixin adaptive-value($property, $startSize, $minSize, $type) {
+	$addSize: $startSize - $minSize;
+	@if $type==1 {
+		//Только если меньше ширины контейнера
+		#{$property}: $startSize + px;
+		@media (max-width: #{$maxWidthContainer + px}) {
+			#{$property}: calc(
+				#{$minSize + px} + #{$addSize} *
+					((100vw - 320px) / #{$maxWidthContainer + 320})
+			);
+		}
+	} @else if $type==2 {
+		//Только если больше контейнера
+		#{$property}: $startSize + px;
+		@media (max-width: #{$maxWidthContainer + px}) {
+			#{$property}: calc(
+				#{$minSize + px} + #{$addSize} * ((100vw - 320px) / #{$maxWidth + 320})
+			);
+		}
+	} @else {
+		//Всегда
+		#{$property}: calc(
+			#{$minSize + px} + #{$addSize} * ((100vw - 320px) / #{$maxWidth + 320})
+		);
+	}
+}
+
+//Flex-mixin
+@mixin flex-column {
+	display: flex;
+	flex-direction: column;
+}
+
+@mixin flex-center {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+@mixin flex-center-column {
+	@include flex-center;
+	flex-direction: column;
+}
+
+@mixin flex-center-vert {
+	display: flex;
+	align-items: center;
+}
+
+@mixin flex-center-horiz {
+	display: flex;
+	justify-content: center;
+}
+
+//Background
+@mixin cover-background {
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+}
